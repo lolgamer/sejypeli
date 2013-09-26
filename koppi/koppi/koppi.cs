@@ -18,8 +18,8 @@ public class koppi : PhysicsGame
         luopistelaskuri();
         LuoElamalaskuri();
 
-        UusiOmena();
-        UusiOmena();
+        UusiOmena(level);
+        omenoitaIlmassa = level;
 
 
         //luo reunat
