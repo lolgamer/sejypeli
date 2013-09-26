@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "koppi", "koppi\koppi\koppi.csproj", "{0CEF7D0B-4744-4FD5-978E-C538BE051457}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "koppiContent", "koppi\koppiContent\koppiContent.contentproj", "{05866102-F7A9-4516-B0A0-88FF1FF5D492}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CEF7D0B-4744-4FD5-978E-C538BE051457}.Debug|x86.ActiveCfg = Debug|x86
+		{0CEF7D0B-4744-4FD5-978E-C538BE051457}.Debug|x86.Build.0 = Debug|x86
+		{0CEF7D0B-4744-4FD5-978E-C538BE051457}.Release|x86.ActiveCfg = Release|x86
+		{0CEF7D0B-4744-4FD5-978E-C538BE051457}.Release|x86.Build.0 = Release|x86
+		{05866102-F7A9-4516-B0A0-88FF1FF5D492}.Debug|x86.ActiveCfg = Debug|x86
+		{05866102-F7A9-4516-B0A0-88FF1FF5D492}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
