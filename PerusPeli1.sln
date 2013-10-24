@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerusPeli1", "PerusPeli1\PerusPeli1\PerusPeli1.csproj", "{31A48C08-FA5A-4E02-A0EC-591772B022AD}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "PerusPeli1Content", "PerusPeli1\PerusPeli1Content\PerusPeli1Content.contentproj", "{CD2523EA-D1C6-4C39-8870-7B5C14FCD73C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31A48C08-FA5A-4E02-A0EC-591772B022AD}.Debug|x86.ActiveCfg = Debug|x86
+		{31A48C08-FA5A-4E02-A0EC-591772B022AD}.Debug|x86.Build.0 = Debug|x86
+		{31A48C08-FA5A-4E02-A0EC-591772B022AD}.Release|x86.ActiveCfg = Release|x86
+		{31A48C08-FA5A-4E02-A0EC-591772B022AD}.Release|x86.Build.0 = Release|x86
+		{CD2523EA-D1C6-4C39-8870-7B5C14FCD73C}.Debug|x86.ActiveCfg = Debug|x86
+		{CD2523EA-D1C6-4C39-8870-7B5C14FCD73C}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
