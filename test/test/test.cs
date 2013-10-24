@@ -8,6 +8,10 @@ using Jypeli.Widgets;
 
 public class test : Game
 {
+
+    ControllerOne.Vibrate( 0.5, 0.5, 0.0, 0.0, 0.1 );
+
+
     public override void Begin()
     {
         // Kirjoita ohjelmakoodisi tähän
