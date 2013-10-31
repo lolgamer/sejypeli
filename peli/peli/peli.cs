@@ -56,7 +56,7 @@ public class peli : PhysicsGame
     }
     void ammu()
     {
-        pelaaja.Weapon.Shoot();
+         pelaaja.Weapon.Shoot();
     }
 
     
