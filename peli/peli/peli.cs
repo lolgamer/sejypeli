@@ -7,20 +7,23 @@ using Jypeli.Effects;
 using Jypeli.Widgets;
 
 public class peli : PhysicsGame
+
 {
+
+
+
     PlatformCharacter pelaaja;
 
     void LuoKentta()
     {
-        //1. Luetaan kuva uuteen ColorTileMappiin, kuvan nimen perässä ei .png-päätettä.
-        ColorTileMap ruudut = ColorTileMap.FromLevelAsset("testikennta1");
+        //Luetaan kuva uuteen ColorTileMappiin, kuvan nimen perässä ei .png-päätettä.
+        ColorTileMap ruudut = ColorTileMap.FromLevelAsset("kentta1");
 
         //2. Kerrotaan mitä aliohjelmaa kutsutaan, kun tietyn värinen pikseli tulee vastaan kuvatiedostossa.
         ruudut.SetTileMethod(Color.FromHexCode("00FF00"), LuoPelaaja);
         ruudut.SetTileMethod(Color.Black, LuoTaso);
-        // ruudut.SetTileMethod(Color.Yellow, LuoTahti);
+        
        // ruudut.Optimize(Color.Black);
-        //3. Execute luo kentän
         //   Parametreina leveys ja korkeus
         ruudut.Execute(20, 20);
     }
@@ -30,7 +33,8 @@ public class peli : PhysicsGame
         
         pelaaja = new PlatformCharacter(leveys/2, korkeus);
         pelaaja.Position = paikka;
-        pelaaja.Weapon = new AssaultRifle(20, 10);
+        pelaaja.Weapon = new LaserGun(20, 10);
+        pelaaja.Image = LoadImage("vihollinen 1");
         Add(pelaaja);
 
     }
@@ -39,10 +43,21 @@ public class peli : PhysicsGame
     {
         PhysicsObject maa = PhysicsObject.CreateStaticObject(korkeus, leveys);
         maa.Position = paikka;
-        maa.CollisionIgnoreGroup = 1;
+        maa.CollisionIgnoreGroup = 100;
+        maa.Color = Color.Black;
         Add(maa);
 
     }
+
+    
+
+    void tahtaa (AnalogState hiirenliike)
+    {
+        Vector suunta = (Mouse.PositionOnWorld - pelaaja.Weapon.AbsolutePosition) .Normalize();
+        pelaaja.Weapon.Angle = suunta.Angle;
+    }
+
+
     void liikuta(Direction suunta)
     {
         if (suunta==Direction.Left)
@@ -52,7 +67,7 @@ public class peli : PhysicsGame
     }
     void hyppaa(double korkeus)
     {
-        pelaaja.Jump(korkeus);
+        pelaaja.Jump(korkeus = 50);
     }
     void ammu()
     {
@@ -67,7 +82,7 @@ public class peli : PhysicsGame
         Gravity = new Vector(0, -100);
 
         Camera.Follow(pelaaja);
-        Camera.ZoomFactor = 2;
+        Camera.ZoomFactor = 5;
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
 
         Keyboard.Listen(Key.Left, ButtonState.Down,
@@ -76,7 +91,8 @@ public class peli : PhysicsGame
             liikuta, "pelaaja liikkuu", Direction.Right);
         Keyboard.Listen(Key.Up, ButtonState.Down,
             hyppaa, "pelaaja hyppaa", 400.0);
-        Keyboard.Listen(Key.Space, ButtonState.Pressed,
-            ammu, "ammu aseella");
+        Mouse.Listen ( MouseButton.Left, ButtonState.Pressed,
+            ammu, "ammu aseella" );
+        Mouse.ListenMovement(0.1, tahtaa, "tähtää aseella");
     }
 }
