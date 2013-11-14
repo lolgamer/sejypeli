@@ -9,34 +9,34 @@ using Jypeli.Widgets;
 public class peli : PhysicsGame
 
 {
-
-
-
     PlatformCharacter pelaaja;
+    GameObject tahtain;
 
     void LuoKentta()
     {
-        //Luetaan kuva uuteen ColorTileMappiin, kuvan nimen perässä ei .png-päätettä.
+
         ColorTileMap ruudut = ColorTileMap.FromLevelAsset("kentta1");
 
-        //2. Kerrotaan mitä aliohjelmaa kutsutaan, kun tietyn värinen pikseli tulee vastaan kuvatiedostossa.
+
         ruudut.SetTileMethod(Color.FromHexCode("00FF00"), LuoPelaaja);
         ruudut.SetTileMethod(Color.Black, LuoTaso);
-        
-       // ruudut.Optimize(Color.Black);
-        //   Parametreina leveys ja korkeus
+
+
         ruudut.Execute(20, 20);
+        
+
     }
 
     void LuoPelaaja(Vector paikka, double leveys, double korkeus)
     {
         
-        pelaaja = new PlatformCharacter(leveys/2, korkeus);
+        pelaaja = new PlatformCharacter(leveys/2, 50);
         pelaaja.Position = paikka;
-        pelaaja.Weapon = new LaserGun(20, 10);
+        pelaaja.Weapon = new PlasmaCannon(20, 10);
         pelaaja.Image = LoadImage("vihollinen 1");
         Add(pelaaja);
 
+        AddCollisionHandler(pelaaja, "maa", PelaajaTormaaMaahan);
     }
 
     void LuoTaso(Vector paikka, double leveys, double korkeus)
@@ -45,10 +45,18 @@ public class peli : PhysicsGame
         maa.Position = paikka;
         maa.CollisionIgnoreGroup = 100;
         maa.Color = Color.Black;
+        maa.Tag = "maa";
         Add(maa);
-
     }
 
+    void PelaajaTormaaMaahan(PhysicsObject maa, PhysicsObject pelaajao)
+    {
+        if (maa.Y - 55 > pelaajao.Y && maa.Y - 15 < pelaajao.Y)
+        {
+            pelaaja.Jump(200);
+        }
+
+    }
     
 
     void tahtaa (AnalogState hiirenliike)
@@ -67,32 +75,46 @@ public class peli : PhysicsGame
     }
     void hyppaa(double korkeus)
     {
-        pelaaja.Jump(korkeus = 50);
+        pelaaja.Jump(korkeus = 100);
     }
     void ammu()
     {
          pelaaja.Weapon.Shoot();
     }
 
-    
+
+    void LuoTahtain()
+    {
+        tahtain = new GameObject(20, 20);
+        tahtain.Image = LoadImage("tähtäin1");
+        Add(tahtain);
+    }
 
     public override  void  Begin()
     {
         LuoKentta();
-        Gravity = new Vector(0, -100);
+        LuoTahtain();
+
+        Gravity = new Vector(0, -500);
 
         Camera.Follow(pelaaja);
         Camera.ZoomFactor = 5;
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
 
-        Keyboard.Listen(Key.Left, ButtonState.Down,
+        Keyboard.Listen(Key.A, ButtonState.Down,
             liikuta, "pelaaja liikkuu", Direction.Left);
-        Keyboard.Listen(Key.Right, ButtonState.Down,
+        Keyboard.Listen(Key.D, ButtonState.Down,
             liikuta, "pelaaja liikkuu", Direction.Right);
-        Keyboard.Listen(Key.Up, ButtonState.Down,
-            hyppaa, "pelaaja hyppaa", 400.0);
+        Keyboard.Listen(Key.W, ButtonState.Down,
+            hyppaa, "pelaaja hyppaa", 500.0);
         Mouse.Listen ( MouseButton.Left, ButtonState.Pressed,
             ammu, "ammu aseella" );
         Mouse.ListenMovement(0.1, tahtaa, "tähtää aseella");
+        Mouse.ListenMovement(0.0, HiiriLiikkuu, "Hiiri liikkuu");
+    }
+
+    void HiiriLiikkuu(AnalogState analogState)
+    {
+        tahtain.Position = Mouse.PositionOnWorld;
     }
 }

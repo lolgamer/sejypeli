@@ -80,8 +80,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tausta1.png">
-      <Name>tausta1</Name>
+    <Compile Include="tähtäin1.png">
+      <Name>tähtäin1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
