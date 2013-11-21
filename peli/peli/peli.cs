@@ -12,6 +12,10 @@ public class peli : PhysicsGame
     PlatformCharacter pelaaja;
     GameObject tahtain;
 
+    PhysicsObject pallo = new PhysicsObject (20.0, 20.0);
+
+    List<PlatformCharacter> pommit = new List<PlatformCharacter>();
+    
     void LuoKentta()
     {
 
@@ -19,20 +23,20 @@ public class peli : PhysicsGame
 
 
         ruudut.SetTileMethod(Color.FromHexCode("00FF00"), LuoPelaaja);
+        ruudut.SetTileMethod(Color.FromHexCode("FF0015"), LuoVihollinen);
         ruudut.SetTileMethod(Color.Black, LuoTaso);
 
-
         ruudut.Execute(20, 20);
-        
 
+        LuoVihollistenAivot();
     }
 
     void LuoPelaaja(Vector paikka, double leveys, double korkeus)
     {
         
-        pelaaja = new PlatformCharacter(leveys/2, 50);
+        pelaaja = new PlatformCharacter(leveys/2, 40);
         pelaaja.Position = paikka;
-        pelaaja.Weapon = new PlasmaCannon(20, 10);
+        pelaaja.Weapon = new LaserGun(20, 10);
         pelaaja.Image = LoadImage("vihollinen 1");
         Add(pelaaja);
 
@@ -57,9 +61,41 @@ public class peli : PhysicsGame
         }
 
     }
-    
 
-    void tahtaa (AnalogState hiirenliike)
+
+    void LuoVihollinen(Vector paikka, double leveys, double korkeus)
+    {
+
+        PlatformCharacter pommi = new PlatformCharacter(leveys / 1, 20);
+        pommi.Position = paikka;
+        pommi.Image = LoadImage("pommi");
+        pommi.Tag = "pommi";
+        Add(pommi);
+
+        pommit.Add(pommi);
+        
+    }
+
+    void LuoVihollistenAivot()
+    {
+        foreach (PlatformCharacter pommi in pommit)
+        {
+          FollowerBrain seuraajanAivot = new FollowerBrain(pelaaja);
+            pommi.Brain = seuraajanAivot;
+            AddCollisionHandler(pommi, pelaaja, PelaajaTormaaPommiin);
+        }
+    }
+
+    void PelaajaTormaaPommiin(GameObject pommi, PlatformCharacter pelaaja)
+    {
+        Explosion rajahdys = new Explosion(40);
+        rajahdys.Position = pommi.Position;
+        Add(rajahdys);
+        pelaaja.Destroy();
+    }
+
+
+    void tahtaa(AnalogState hiirenliike)
     {
         Vector suunta = (Mouse.PositionOnWorld - pelaaja.Weapon.AbsolutePosition) .Normalize();
         pelaaja.Weapon.Angle = suunta.Angle;
@@ -69,9 +105,9 @@ public class peli : PhysicsGame
     void liikuta(Direction suunta)
     {
         if (suunta==Direction.Left)
-            pelaaja.Walk(-200);
+            pelaaja.Walk(-500);
         if (suunta == Direction.Right)
-            pelaaja.Walk(200);
+            pelaaja.Walk(500);
     }
     void hyppaa(double korkeus)
     {
